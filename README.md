@@ -1,8 +1,10 @@
 # rsshub
 
-A new Flutter project.
+a Flutter app for [rssHub](https://github.com/DIYgod/RSSHub)
 
-## Getting Started
+## api
+
+rss路由列表 https://rsshub.app/api/routes
 
 This project is a starting point for a Flutter application.
 
