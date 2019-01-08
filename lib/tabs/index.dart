@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter/cupertino.dart";
-import "./allrss.dart";
-import './myrss.dart';
+import "allrss.dart";
+import 'myrss.dart';
 import "../p_tabview.dart";
 
 class IndexScene extends StatefulWidget{
@@ -14,10 +14,8 @@ class IndexScene extends StatefulWidget{
 class _IndexState extends State<IndexScene>{
   int _pageIndex = 0;
   final _pages = <Widget>[
-    PersistTabview(child: AllRssPage()),
-    PersistTabview(child: MyRssPage()),
-    PersistTabview(child: FavoriteScene()),
-    PersistTabview(child: MeScene()),
+    PersistTabview(child: AllRss()),
+    PersistTabview(child: MyRss())
   ];
 
   @override
@@ -37,28 +35,20 @@ class _IndexState extends State<IndexScene>{
             setState(() {
               _pageIndex = i;
             }); 
-            if (_pages[i] is Scene) {
-              final _scene = _pages[i] as Scene;
-              if (_scene.initialized == false) {
-                _scene.initialized = true;
-              }
-            }
+            // if (_pages[i] is Scene) {
+            //   final _scene = _pages[i] as Scene;
+            //   if (_scene.initialized == false) {
+            //     _scene.initialized = true;
+            //   }
+            // }
           },
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              title: Text('主题')
+              title: Text('全部')
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.explore),
-              title: Text('发现')
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              title: Text('收藏')
-            ),
-            BottomNavigationBarItem(
-              icon: Icon(Icons.person),
               title: Text('我的')
             )
           ],

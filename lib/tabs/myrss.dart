@@ -1,11 +1,11 @@
 import "package:flutter/material.dart";
 
-class AllRss extends StatefulWidget {
+class MyRss extends StatefulWidget {
   @override
-  _AllRssState createState() => _AllRssState();
+  _MyRssState createState() => _MyRssState();
 }
 
-class _AllRssState extends State<AllRss>
+class _MyRssState extends State<MyRss>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
 
