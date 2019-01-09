@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:shared_preferences/shared_preferences.dart';
+import '../common/eventBus.dart';
 class MyRss extends StatefulWidget {
   @override
   _MyRssState createState() => _MyRssState();
@@ -20,6 +21,16 @@ class _MyRssState extends State<MyRss>
         print(rssList);
       });
     });
+    eventBus.on<MyEvent>().listen((res){
+      print(res.text);
+      print(res.data);
+      if(res.text == 'update:rsslist'){
+        setState(() {
+                rssList = res.data;
+              });
+      }
+
+    });
     _controller = AnimationController(vsync: this);
   }
 
@@ -36,7 +47,17 @@ class _MyRssState extends State<MyRss>
       appBar: AppBar(
         title: Text('我的订阅')
       ),
-      body: ListView.separated(
+      body: RefreshIndicator(
+        onRefresh: () async {
+          var prefs = await _prefs;
+          
+          setState(() {
+            rssList = prefs.getStringList('rssList') ?? [];
+            print('rssList:');
+            print(prefs.getStringList('rssList'));
+          });
+        },
+        child: ListView.separated(
         itemBuilder: (context, index){
           return ListTile(
             title: Text(
@@ -50,6 +71,7 @@ class _MyRssState extends State<MyRss>
             color: Colors.black12,
           );
         },
+      )
       )
     );
   } else {

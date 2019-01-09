@@ -4,6 +4,6 @@ EventBus eventBus = new EventBus();
 
 class MyEvent {
   String text;
-
-  MyEvent(this.text);
+  List data;
+  MyEvent(this.text, {this.data = const []});
 }

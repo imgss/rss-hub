@@ -26,7 +26,10 @@ class _AllRssState extends State<AllRss>
     eventBus.on<MyEvent>().listen((data){
       print(data.text);
       print(ctler);
-      ctler.close();
+      if(data.text == 'closeSheet' && ctler != null){
+        ctler.close();
+      }
+
     });
 
     http.get('https://rsshub.app/api/routes').then((res){
@@ -93,13 +96,12 @@ class _AllRssState extends State<AllRss>
                           FlatButton(
                             textColor: Colors.blueAccent,
                             onPressed: () async {
-                              print(index);
-                              print(subRoutes[index]);
                               final SharedPreferences prefs = await _prefs;
                               List<String> rssList = prefs.getStringList('rssList') ?? [];
-                              print(rssList);
                               rssList.add(subRoutes[index]);
-                              prefs.setStringList('rssList', rssList);
+                              print(rssList.length);
+                              await prefs.setStringList('rssList', rssList);
+                              eventBus.fire(MyEvent('update:rsslist', data: rssList));
                             },
                             child: Text('订阅')
                           )
