@@ -1,8 +1,12 @@
 import "package:flutter/material.dart";
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import '../common/eventBus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class AllRss extends StatefulWidget {
+
+  AllRss();
+
   @override
   _AllRssState createState() => _AllRssState();
 }
@@ -10,12 +14,21 @@ class AllRss extends StatefulWidget {
 class _AllRssState extends State<AllRss>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
+  Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Map routes;
+  PersistentBottomSheetController ctler;
   @override
   void initState() {
     super.initState();
+
     _controller = AnimationController(vsync: this);
-    print('start');
+
+    eventBus.on<MyEvent>().listen((data){
+      print(data.text);
+      print(ctler);
+      ctler.close();
+    });
+
     http.get('https://rsshub.app/api/routes').then((res){
       Map _res = json.decode(res.body);
       print(res.body);
@@ -56,7 +69,7 @@ class _AllRssState extends State<AllRss>
             onTap: () {
               print(routes[routeNames[index]]);
               List subRoutes = routes[routeNames[index]]['routes'];
-              showBottomSheet(
+              ctler = showBottomSheet(
                 context: context,
                 builder: (context){
                   return ListView.separated(
@@ -79,8 +92,14 @@ class _AllRssState extends State<AllRss>
 
                           FlatButton(
                             textColor: Colors.blueAccent,
-                            onPressed: () {
-                              print(1);
+                            onPressed: () async {
+                              print(index);
+                              print(subRoutes[index]);
+                              final SharedPreferences prefs = await _prefs;
+                              List<String> rssList = prefs.getStringList('rssList') ?? [];
+                              print(rssList);
+                              rssList.add(subRoutes[index]);
+                              prefs.setStringList('rssList', rssList);
                             },
                             child: Text('订阅')
                           )

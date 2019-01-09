@@ -1,6 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter/cupertino.dart";
 import "allrss.dart";
+import '../common/eventBus.dart';
 import 'myrss.dart';
 import "../p_tabview.dart";
 
@@ -35,6 +36,9 @@ class _IndexState extends State<IndexScene>{
             setState(() {
               _pageIndex = i;
             }); 
+            if(i == 1){
+              eventBus.fire(MyEvent('closeSheet'));
+            }
             // if (_pages[i] is Scene) {
             //   final _scene = _pages[i] as Scene;
             //   if (_scene.initialized == false) {
