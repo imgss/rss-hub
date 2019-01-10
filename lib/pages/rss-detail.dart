@@ -1,7 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:dio/dio.dart';
 import 'package:webfeed/webfeed.dart';
-
+import './webview.dart';
+import 'package:flutter/cupertino.dart';
 class RssDetail extends StatefulWidget {
   String _url;
   RssDetail(this._url);
@@ -33,12 +34,11 @@ class _RssDetailState extends State<RssDetail> {
   @override
   Widget build(BuildContext context) {
 
-    if(rssFeed != null){
       return Scaffold(
       appBar: AppBar(
-        title: Text(rssFeed.title),
+        title: Text(rssFeed != null ? rssFeed.title : '加载中'),
       ),
-      body: ListView.separated(
+      body: rssFeed != null ? ListView.separated(
         separatorBuilder: (context, index){
           return Divider(color: Colors.black12,);
         },
@@ -46,13 +46,17 @@ class _RssDetailState extends State<RssDetail> {
         itemBuilder: (context, index){
           var rssItem = rssFeed.items[index];
           return ListTile(
+            onTap: (){
+              print(rssItem.link);
+              Navigator.push(
+                context,
+                CupertinoPageRoute(builder: (context) => Web(rssItem.link)),
+              );
+            },
             title: Text(rssItem.title),
           );
         }
-      )
+      ) : Center(child: CircularProgressIndicator(),)
     );
-    } else {
-      return Center(child: Text('loading'),);
-    }
   }
 }

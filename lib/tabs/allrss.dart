@@ -32,12 +32,13 @@ class _AllRssState extends State<AllRss>
 
     });
     Dio dio = new Dio();
+    print('initState');
     dio.get('https://rsshub.app/api/routes').then((res){
-      Map _res = json.decode(res.data);
-      print(res.data);
+      print(res.data is Map);
+
       if (res.statusCode == 200) {
         setState(() {
-          routes = _res['data'];
+          routes = res.data['data'];
           print(routes);
         });
       } else {
