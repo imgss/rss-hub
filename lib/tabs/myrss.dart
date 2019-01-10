@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
+import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../common/eventBus.dart';
+import '../pages/rss-detail.dart';
 class MyRss extends StatefulWidget {
   @override
   _MyRssState createState() => _MyRssState();
@@ -53,13 +55,18 @@ class _MyRssState extends State<MyRss>
           
           setState(() {
             rssList = prefs.getStringList('rssList') ?? [];
-            print('rssList:');
-            print(prefs.getStringList('rssList'));
           });
         },
         child: ListView.separated(
         itemBuilder: (context, index){
           return ListTile(
+            onTap: (){
+              print(rssList[index]);
+              Navigator.push(
+                context,
+                CupertinoPageRoute(builder: (context) => RssDetail(rssList[index])),
+              );
+            },
             title: Text(
                 rssList[index]
               )

@@ -1,5 +1,5 @@
 import "package:flutter/material.dart";
-import 'package:http/http.dart' as http;
+import 'package:dio/dio.dart';
 import 'dart:convert';
 import '../common/eventBus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -31,10 +31,10 @@ class _AllRssState extends State<AllRss>
       }
 
     });
-
-    http.get('https://rsshub.app/api/routes').then((res){
-      Map _res = json.decode(res.body);
-      print(res.body);
+    Dio dio = new Dio();
+    dio.get('https://rsshub.app/api/routes').then((res){
+      Map _res = json.decode(res.data);
+      print(res.data);
       if (res.statusCode == 200) {
         setState(() {
           routes = _res['data'];
