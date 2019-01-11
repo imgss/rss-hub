@@ -2,17 +2,16 @@
 
 a Flutter app for [rssHub](https://github.com/DIYgod/RSSHub)
 
-## api
+这是一个可以订阅[rssHub](https://github.com/DIYgod/RSSHub)中的 RSS 的app
+
+## 截图
+
+WIP
+
+## 使用的api
 
 rss路由列表 https://rsshub.app/api/routes
 
-This project is a starting point for a Flutter application.
+## TODO
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.io/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.io/docs/cookbook)
-
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.io/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+丰富界面，如加入icon，描述等
