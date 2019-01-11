@@ -73,6 +73,9 @@ class _RouteListState extends State<RouteList> {
                         }
                         rssList.add(subRoutes[index]);
                         await prefs.setStringList('rssList', rssList);
+                        setState(() {
+                                                  btnTexts[index] = '已订阅';
+                                                });
                         Scaffold.of(context).showSnackBar(SnackBar (
                           content: Row(
                             children: [
@@ -81,6 +84,7 @@ class _RouteListState extends State<RouteList> {
                             ]
                           ))
                           );
+
                         eventBus.fire(MyEvent('update:rsslist', data: rssList));
                       },
                       child: Text(btnTexts != null ? btnTexts[index] : '订阅')

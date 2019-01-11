@@ -19,7 +19,7 @@ class Web extends StatelessWidget {
           var _url = await controler.currentUrl();
           print(_url);
         },
-        javaScriptMode: JavaScriptMode.disabled
+        javaScriptMode: JavaScriptMode.unrestricted
       )
     );
   }
