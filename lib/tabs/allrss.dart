@@ -60,7 +60,7 @@ class _AllRssState extends State<AllRss>
               List subRoutes = routes[routeNames[index]]['routes'];
               Navigator.push(
                 context,
-                CupertinoPageRoute(builder: (context) => RouteList(subRoutes)),
+                CupertinoPageRoute(builder: (context) => RouteList(routeNames[index], subRoutes)),
               );
               
             },

@@ -4,24 +4,45 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class RouteList extends StatefulWidget {
   @override
-  _RouteListState createState() => _RouteListState(_subRoutes);
+  _RouteListState createState() => _RouteListState(_title, _subRoutes);
 
   List _subRoutes;
+  String _title;
 
-  RouteList(this._subRoutes);
+  RouteList(this._title, this._subRoutes);
 
 }
 
 class _RouteListState extends State<RouteList> {
   List subRoutes;
+  List btnTexts;
+  String title;
   Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  _RouteListState(this.subRoutes);
+  _RouteListState(this.title, this.subRoutes);
+
+  @override
+  void initState() {
+      // TODO: implement initState
+      super.initState();
+      _prefs.then((prefs){
+        List<String> rssList = prefs.getStringList('rssList') ?? [];
+        setState(() {
+          btnTexts = subRoutes.map((s){
+          if(rssList.contains(s)){
+              return '已订阅';
+            }else{
+              return '订阅';
+            }
+          }).toList();
+        });
+      });
+    }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('rss列表')),
+      appBar: AppBar(title: Text(title + ' RSS列表')),
       body: ListView.separated(
               padding: EdgeInsets.only(top: 20.0),
               itemCount: subRoutes.length,
@@ -52,10 +73,17 @@ class _RouteListState extends State<RouteList> {
                         }
                         rssList.add(subRoutes[index]);
                         await prefs.setStringList('rssList', rssList);
-                        Scaffold.of(context).showSnackBar(SnackBar (content: Text('订阅成功'),));
+                        Scaffold.of(context).showSnackBar(SnackBar (
+                          content: Row(
+                            children: [
+                              Icon(Icons.check_circle, color: Colors.blueAccent),
+                              Text('订阅成功'),
+                            ]
+                          ))
+                          );
                         eventBus.fire(MyEvent('update:rsslist', data: rssList));
                       },
-                      child: Text('订阅')
+                      child: Text(btnTexts != null ? btnTexts[index] : '订阅')
                     )
                   ]);
               },
