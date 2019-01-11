@@ -54,6 +54,7 @@ class _RssDetailState extends State<RssDetail> {
               );
             },
             title: Text(rssItem.title),
+            subtitle: Text(rssItem.pubDate ?? '发布日期未知')
           );
         }
       ) : Center(child: CircularProgressIndicator(),)
