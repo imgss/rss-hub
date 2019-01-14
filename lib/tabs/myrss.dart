@@ -40,6 +40,11 @@ class _MyRssState extends State<MyRss>
   void dispose() {
     super.dispose();
     _controller.dispose();
+    _prefs.then((prefs){
+      setState(() {
+        prefs.setStringList('rssList', rssList ?? []);
+      });
+    });
   }
 
   @override
@@ -69,7 +74,18 @@ class _MyRssState extends State<MyRss>
             },
             title: Text(
                 rssList[index]
-              )
+              ),
+            trailing: FlatButton(
+              child: Text('删除'),
+              textColor: Theme.of(context).primaryColor,
+              onPressed: (){
+                print('delete');
+                print(index);
+                setState(() {
+                  rssList.removeAt(index);
+                });
+              },
+            ),
             );
         },
         itemCount: rssList.length,
