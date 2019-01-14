@@ -71,11 +71,33 @@ class _RouteListState extends State<RouteList> {
                           Scaffold.of(context).showSnackBar(SnackBar (content: Text('无需重复订阅'),));
                           return false;
                         }
+
+                        //如果需要参数
+                        RegExp paramRE = new RegExp(r':(\w+)\\?');
+                        if(paramRE.hasMatch(subRoutes[index])){
+
+                          print('需要填写参数');
+                          print(paramRE.allMatches(subRoutes[index]).map(
+                            (Match s) => s.group(0)
+                            ).toList()
+                          );
+                          return Scaffold.of(context).showSnackBar(SnackBar (
+                            content: Row(
+                              children: [
+                                Icon(Icons.check_circle, color: Colors.blueAccent),
+                                Text('订阅需要填写参数'),
+                              ]
+                            ))
+                          );
+                        }
+
+
+
                         rssList.add(subRoutes[index]);
                         await prefs.setStringList('rssList', rssList);
                         setState(() {
-                                                  btnTexts[index] = '已订阅';
-                                                });
+                          btnTexts[index] = '已订阅';
+                        });
                         Scaffold.of(context).showSnackBar(SnackBar (
                           content: Row(
                             children: [
